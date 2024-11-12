@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Page</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      background-image: url('image.png'); /* Path to your uploaded background image */
+      background-size: cover;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      border-radius: 10px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    input[type="text"], input[type="tel"], select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    label {
+      margin-bottom: 5px;
+      display: block;
+    }
+    #payment-options {
+      display: none;
+    }
+    .upi-form {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Payment Details</h1>
+    <button id="payment-button">Proceed to Payment</button>
+
+    <div id="payment-options">
+      <h2>UPI Payment</h2>
+      <button id="phonepe-btn">PhonePe</button>
+      <button id="googlepay-btn">Google Pay</button>
+      <button id="paytm-btn">Paytm</button>
+
+      <div id="upi-form-phonepe" class="upi-form">
+        <h3>PhonePe Payment</h3>
+
+        <label for="name-phonepe">Name of Account Holder:</label>
+        <input type="text" id="name-phonepe" name="name-phonepe" placeholder="Enter name of account holder" required>
+
+        <label for="phone-number-phonepe">Phone Number:</label>
+        <input type="tel" id="phone-number-phonepe" name="phone-number-phonepe" placeholder="10 digits" pattern="[0-9]{10}" required>
+
+        <label for="place-living-phonepe">Place of Living:</label>
+        <select id="place-living-phonepe" name="place-living-phonepe" required>
+          <option value="">Select Your Country</option>
+          <option value="usa">United States</option>
+          <option value="canada">Canada</option>
+          <option value="uk">United Kingdom</option>
+          <option value="india">India</option>
+          <!-- Add more countries as needed -->
+        </select>
+
+        <label for="migrating-country-phonepe">Migrating Country:</label>
+        <select id="migrating-country-phonepe" name="migrating-country-phonepe" required>
+          <option value="">Select Migrating Country</option>
+          <option value="usa">United States</option>
+          <option value="canada">Canada</option>
+          <option value="uk">United Kingdom</option>
+          <option value="india">India</option>
+          <!-- Add more countries as needed -->
+        </select>
+
+        <label for="application-type-phonepe">Application Type:</label>
+        <select id="application-type-phonepe" name="application-type-phonepe" required>
+          <option value="">Select Application Type</option>
+          <option value="new-passport">New Passport</option>
+          <option value="second-passport">Second Passport</option>
+          <option value="visa-application">Visa Application</option>
+          <option value="extending-visa">Extending Visa</option>
+        </select>
+
+        <label for="price-phonepe">Price:</label>
+        <input type="text" id="price-phonepe" name="price-phonepe" placeholder="Price" readonly>
+
+        <label for="address-phonepe">Address:</label>
+        <textarea id="address-phonepe" name="address-phonepe" placeholder="Enter your address" required></textarea>
+
+        <label for="utr-code-phonepe">UTR Code:</label>
+        <input type="text" id="utr-code-phonepe" name="utr-code-phonepe" placeholder="Enter UTR Code" required>
+
+        <label for="transaction-code-phonepe">Transaction Code:</label>
+        <input type="text" id="transaction-code-phonepe" name="transaction-code-phonepe" placeholder="Enter Transaction Code" required>
+
+        <button type="submit" class="pay-now">Pay Now</button>
+      </div>
+
+      <div id="upi-form-googlepay" class="upi-form">
+        <h3>Google Pay Payment</h3>
+        <label for="name-googlepay">Name of Account Holder:</label>
+        <input type="text" id="name-googlepay" name="name-googlepay" placeholder="Enter name of account holder" required>
+
+        <label for="phone-number-googlepay">Phone Number:</label>
+        <input type="tel" id="phone-number-googlepay" name="phone-number-googlepay" placeholder="10 digits" pattern="[0-9]{10}" required>
+
+        <label for="place-living-googlepay">Place of Living:</label>
+        <select id="place-living-googlepay" name="place-living-googlepay" required>
+          <option value="">Select Your Country</option>
+          <option value="usa">United States</option>
+          <option value="canada">Canada</option>
+          <option value="uk">United Kingdom</option>
+          <option value="india">India</option>
+          <!-- Add more countries as needed -->
+        </select>
+
+        <label for="migrating-country-googlepay">Migrating Country:</label>
+        <select id="migrating-country-googlepay" name="migrating-country-googlepay" required>
+          <option value="">Select Migrating Country</option>
+          <option value="usa">United States</option>
+          <option value="canada">Canada</option>
+          <option value="uk">United Kingdom</option>
+          <option value="india">India</option>
+          <!-- Add more countries as needed -->
+        </select>
+
+        <label for="application-type-googlepay">Application Type:</label>
+        <select id="application-type-googlepay" name="application-type-googlepay" required>
+          <option value="">Select Application Type</option>
+          <option value="new-passport">New Passport</option>
+          <option value="second-passport">Second Passport</option>
+          <option value="visa-application">Visa Application</option>
+          <option value="extending-visa">Extending Visa</option>
+        </select>
+
+        <label for="price-googlepay">Price:</label>
+        <input type="text" id="price-googlepay" name="price-googlepay" placeholder="Price" readonly>
+
+        <label for="address-googlepay">Address:</label>
+        <textarea id="address-googlepay" name="address-googlepay" placeholder="Enter your address" required></textarea>
+
+        <label for="utr-code-googlepay">UTR Code:</label>
+        <input type="text" id="utr-code-googlepay" name="utr-code-googlepay" placeholder="Enter UTR Code" required>
+
+        <label for="transaction-code-googlepay">Transaction Code:</label>
+        <input type="text" id="transaction-code-googlepay" name="transaction-code-googlepay" placeholder="Enter Transaction Code" required>
+
+        <button type="submit" class="pay-now">Pay Now</button>
+      </div>
+
+      <div id="upi-form-paytm" class="upi-form">
+        <h3>Paytm Payment</h3>
+        <label for="name-paytm">Name of Account Holder:</label>
+        <input type="text" id="name-paytm" name="name-paytm" placeholder="Enter name of account holder" required>
+
+        <label for="phone-number-paytm">Phone Number:</label>
+        <input type="tel" id="phone-number-paytm" name="phone-number-paytm" placeholder="10 digits" pattern="[0-9]{10}" required>
+
+        <label for="place-living-paytm">Place of Living:</label>
+        <select id="place-living-paytm" name="place-living-paytm" required>
+          <option value="">Select Your Country</option>
+          <option value="usa">United States</option>
+          <option value="canada">Canada</option>
+          <option value="uk">United Kingdom</option>
+          <option value="india">India</option>
+          <!-- Add more countries as needed -->
+        </select>
+
+        <label for="migrating-country-paytm">Migrating Country:</label>
+        <select id="migrating-country-paytm" name="migrating-country-paytm" required>
+          <option value="">Select Migrating Country</option>
+          <option value="usa">United States</option>
+          <option value="canada">Canada</option>
+          <option value="uk">United Kingdom</option>
+          <option value="india">India</option>
+          <!-- Add more countries as needed -->
+        </select>
+
+        <label for="application-type-paytm">Application Type:</label>
+        <select id="application-type-paytm" name="application-type-paytm" required>
+          <option value="">Select Application Type</option>
+          <option value="new-passport">New Passport</option>
+          <option value="second-passport">Second Passport</option>
+          <option value="visa-application">Visa Application</option>
+          <option value="extending-visa">Extending Visa</option>
+        </select>
+
+        <label for="price-paytm">Price:</label>
+        <input type="text" id="price-paytm" name="price-paytm" placeholder="Price" readonly>
+
+        <label for="address-paytm">Address:</label>
+        <textarea id="address-paytm" name="address-paytm" placeholder="Enter your address" required></textarea>
+
+        <label for="utr-code-paytm">UTR Code:</label>
+        <input type="text" id="utr-code-paytm" name="utr-code-paytm" placeholder="Enter UTR Code" required>
+
+        <label for="transaction-code-paytm">Transaction Code:</label>
+        <input type="text" id="transaction-code-paytm" name="transaction-code-paytm" placeholder="Enter Transaction Code" required>
+
+        <button type="submit" class="pay-now">Pay Now</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const paymentButton = document.getElementById("payment-button");
+      const paymentOptions = document.getElementById("payment-options");
+
+      paymentButton.addEventListener("click", function() {
+        paymentOptions.style.display = "block";
+      });
+
+      // Function to set price based on application type and country
+      function setPrice(applicationType, country) {
+        let price = 0;
+
+        // Define price logic based on application type and country
+        if (country === "usa") {
+          switch (applicationType) {
+            case "new-passport":
+              price = 100; // Set the price for New Passport in USA
+              break;
+            case "second-passport":
+              price = 150; // Set the price for Second Passport in USA
+              break;
+            case "visa-application":
+              price = 200; // Set the price for Visa Application in USA
+              break;
+            case "extending-visa":
+              price = 250; // Set the price for Extending Visa in USA
+              break;
+          }
+        } else if (country === "canada") {
+          switch (applicationType) {
+            case "new-passport":
+              price = 120; // Set the price for New Passport in Canada
+              break;
+            case "second-passport":
+              price = 170; // Set the price for Second Passport in Canada
+              break;
+            case "visa-application":
+              price = 220; // Set the price for Visa Application in Canada
+              break;
+            case "extending-visa":
+              price = 270; // Set the price for Extending Visa in Canada
+              break;
+          }
+        } else if (country === "uk") {
+          switch (applicationType) {
+            case "new-passport":
+              price = 130; // Set the price for New Passport in UK
+              break;
+            case "second-passport":
+              price = 180; // Set the price for Second Passport in UK
+              break;
+            case "visa-application":
+              price = 230; // Set the price for Visa Application in UK
+              break;
+            case "extending-visa":
+              price = 280; // Set the price for Extending Visa in UK
+              break;
+          }
+        } else if (country === "india") {
+          switch (applicationType) {
+            case "new-passport":
+              price = 110; // Set the price for New Passport in India
+              break;
+            case "second-passport":
+              price = 160; // Set the price for Second Passport in India
+              break;
+            case "visa-application":
+              price = 210; // Set the price for Visa Application in India
+              break;
+            case "extending-visa":
+              price = 260; // Set the price for Extending Visa in India
+              break;
+          }
+        }
+
+        return price;
+      }
+
+      // Function to update price when application type or country changes
+      function updatePrice(applicationTypeSelect, countrySelect, priceField) {
+        const applicationType = applicationTypeSelect.value;
+        const country = countrySelect.value;
+
+        if (applicationType && country) {
+          const price = setPrice(applicationType, country);
+          priceField.value = price; // Update the price field
+
+          // Disable application type selection for "New Passport" and "Second Passport"
+          if (applicationType === "new-passport" || applicationType === "second-passport") {
+            applicationTypeSelect.disabled = true; // Disable the dropdown
+          }
+        } else {
+          priceField.value = ''; // Clear the price field if selection is incomplete
+        }
+      }
+
+      // Show appropriate UPI form based on button clicked
+      document.getElementById("phonepe-btn").addEventListener("click", function() {
+        document.querySelectorAll('.upi-form').forEach(form => form.style.display = 'none');
+        document.getElementById("upi-form-phonepe").style.display = "block";
+      });
+      document.getElementById("googlepay-btn").addEventListener("click", function() {
+        document.querySelectorAll('.upi-form').forEach(form => form.style.display = 'none');
+        document.getElementById("upi-form-googlepay").style.display = "block";
+      });
+      document.getElementById("paytm-btn").addEventListener("click", function() {
+        document.querySelectorAll('.upi-form').forEach(form => form.style.display = 'none');
+        document.getElementById("upi-form-paytm").style.display = "block";
+      });
+
+      // Handle changes to application type and place of living for all forms
+      const forms = document.querySelectorAll('.upi-form');
+      forms.forEach(form => {
+        const applicationTypeSelect = form.querySelector('select[name*="application-type"]');
+        const countrySelect = form.querySelector('select[name*="place-living"]');
+        const priceField = form.querySelector('input[type="text"][placeholder="Price"]');
+
+        applicationTypeSelect.addEventListener("change", function() {
+          updatePrice(applicationTypeSelect, countrySelect, priceField);
+        });
+
+        countrySelect.addEventListener("change", function() {
+          updatePrice(applicationTypeSelect, countrySelect, priceField);
+        });
+      });
+
+      // Handle form submission for each payment option
+      const payNowButtons = document.querySelectorAll('.pay-now');
+      payNowButtons.forEach(button => {
+        button.addEventListener("click", function(event) {
+          event.preventDefault();
+          const formElement = button.closest("div"); // Get the closest form
+          const phoneNumber = formElement.querySelector('input[type="tel"]').value;
+
+          // Check if phone number is exactly 10 digits
+          if (phoneNumber.length !== 10) {
+            alert("Please enter a valid phone number with exactly 10 digits.");
+          } else {
+            // Proceed with form submission or payment processing
+            alert("Payment processed successfully!");
+
+            // Clear the form fields
+            formElement.reset();
+
+            // Hide the form
+            formElement.style.display = "none";
+
+            // Hide the payment options
+            paymentOptions.style.display = "none";
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

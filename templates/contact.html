@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visa Application Form</title>
+  <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #1e3c72, #4e8ef7);
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        margin-top: 50px;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #fff;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: bold;
+    }
+
+    .form-container {
+        display: none;
+    }
+
+    .form-container.active {
+        display: block;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-group label {
+        color: #fff;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        display: block;
+        text-transform: capitalize;
+    }
+
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 14px;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        border: 1px solid #f1f1f1;
+        background-color: #fff;
+        color: #333;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+        border-color: #4e8ef7;
+        outline: none;
+    }
+
+    .form-group input[type="file"] {
+        padding: 0;
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .form-group select {
+        cursor: pointer;
+    }
+
+    .button-group {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn-primary {
+        background-color: #4e8ef7;
+        border: none;
+        padding: 12px 20px;
+        font-size: 1.2rem;
+        color: #fff;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 0 10px;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+    }
+
+    .btn-secondary {
+        background-color: #28a745;
+        border: none;
+        padding: 12px 20px;
+        font-size: 1.2rem;
+        color: #fff;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin: 0 10px;
+    }
+
+    .btn-secondary:hover {
+        background-color: #218838;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+    }
+
+    .calendar {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .calendar-day {
+        background-color: #fff;
+        padding: 20px;
+        text-align: center;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: #333;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .calendar-day:hover {
+        background-color: #007bff;
+        color: #fff;
+        transform: scale(1.1);
+    }
+
+    .calendar-day.selected {
+        background-color: #1e3c72;
+        color: #fff;
+        transform: scale(1.1);
+    }
+
+    .calendar-day.selected:hover {
+        background-color: #4e8ef7;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 30px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        color: #333;
+        max-width: 400px;
+    }
+
+    .modal h3 {
+        color: #007bff;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .cancel {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 12px 25px;
+        font-size: 1.1rem;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .cancel:hover {
+        background-color: #0056b3;
+    }
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <!-- Step 1: Personal Details -->
+    <div id="step1" class="form-container active">
+        <h2>Step 1: Personal Details</h2>
+        <div class="form-group">
+            <label for="fullName">Full Name (as per passport)</label>
+            <input type="text" id="fullName" placeholder="Enter your full name" required>
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth (DD/MM/YYYY)</label>
+            <input type="date" id="dob" required>
+        </div>
+        <div class="form-group">
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="nationality">Nationality</label>
+            <input type="text" id="nationality" placeholder="Enter your nationality" required>
+        </div>
+        <div class="form-group">
+            <label for="passportNumber">Passport Number</label>
+            <input type="text" id="passportNumber" placeholder="Enter passport number" required>
+        </div>
+        <div class="form-group">
+            <label for="passportIssueDate">Passport Issue Date (DD/MM/YYYY)</label>
+            <input type="date" id="passportIssueDate" required>
+        </div>
+        <div class="form-group">
+            <label for="passportExpiryDate">Passport Expiry Date (DD/MM/YYYY)</label>
+            <input type="date" id="passportExpiryDate" required>
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="goToStep(2)">Next</button>
+        </div>
+    </div>
+
+    <!-- Step 2: Address Details -->
+    <div id="step2" class="form-container">
+        <h2>Step 2: Address Details</h2>
+        <div class="form-group">
+            <label for="address">Permanent Address</label>
+            <input type="text" id="address" placeholder="Enter your address" required>
+        </div>
+        <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" placeholder="Enter your city" required>
+        </div>
+        <div class="form-group">
+            <label for="state">State</label>
+            <input type="text" id="state" placeholder="Enter your state" required>
+        </div>
+        <div class="form-group">
+            <label for="postalCode">Postal Code</label>
+            <input type="text" id="postalCode" placeholder="Enter postal code" required>
+        </div>
+        <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" id="country" placeholder="Enter your country" required>
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="goToStep(1)">Back</button>
+            <button class="btn-primary" onclick="goToStep(3)">Next</button>
+        </div>
+    </div>
+
+    <!-- Step 3: Contact Details -->
+    <div id="step3" class="form-container">
+        <h2>Step 3: Contact Details</h2>
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input type="tel" id="phoneNumber" placeholder="Enter your phone number" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="Enter your email address" required>
+        </div>
+        <div class="form-group">
+            <label for="alternateContact">Alternate Contact Number</label>
+            <input type="tel" id="alternateContact" placeholder="Enter alternate contact number" required>
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="goToStep(2)">Back</button>
+            <button class="btn-primary" onclick="goToStep(4)">Next</button>
+        </div>
+    </div>
+
+    <!-- Step 4: Travel Details -->
+    <div id="step4" class="form-container">
+        <h2>Step 4: Travel Details</h2>
+        <div class="form-group">
+            <label for="destinationCountry">Destination Country</label>
+            <input type="text" id="destinationCountry" placeholder="Enter destination country" required>
+        </div>
+        <div class="form-group">
+            <label for="travelDate">Travel Date (DD/MM/YYYY)</label>
+            <input type="date" id="travelDate" required>
+        </div>
+        <div class="form-group">
+            <label for="visaType">Visa Type</label>
+            <select id="visaType">
+                <option value="tourist">Tourist</option>
+                <option value="business">Business</option>
+                <option value="student">Student</option>
+                <option value="transit">Transit</option>
+            </select>
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="goToStep(3)">Back</button>
+            <button class="btn-primary" onclick="goToStep(5)">Next</button>
+        </div>
+    </div>
+
+    <!-- Step 5: Passport and Visa Information -->
+    <div id="step5" class="form-container">
+        <h2>Step 5: Passport and Visa Information</h2>
+        <div class="form-group">
+            <label for="passportNumber">Passport Number</label>
+            <input type="text" id="passportNumber" placeholder="Enter passport number" required>
+        </div>
+        <div class="form-group">
+            <label for="dob">Date of Birth</label>
+            <input type="date" id="dob" required>
+        </div>
+        <div class="form-group">
+            <label for="passportIssueDate">Passport Issue Date</label>
+            <input type="date" id="passportIssueDate" required>
+        </div>
+        <div class="form-group">
+            <label for="passportExpiryDate">Passport Expiry Date</label>
+            <input type="date" id="passportExpiryDate" required>
+        </div>
+        <div class="form-group">
+            <label for="placeOfIssue">Place of Issue</label>
+            <input type="text" id="placeOfIssue" placeholder="Enter place of issue" required>
+        </div>
+        <div class="form-group">
+            <label for="fullName">Passport Holder's Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter full name as in passport" required>
+        </div>
+        <div class="form-group">
+            <label for="nationality">Nationality</label>
+            <input type="text" id="nationality" placeholder="Enter nationality" required>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input type="text" id="phoneNumber" placeholder="Enter phone number" required>
+        </div>
+        <div class="form-group">
+            <label for="emailAddress">Email Address</label>
+            <input type="email" id="emailAddress" placeholder="Enter email address" required>
+        </div>
+        <div class="form-group">
+            <label for="confirmationNumber">D-160 Confirmation Number</label>
+            <input type="text" id="confirmationNumber" placeholder="Enter D-160 confirmation number" readonly>
+        </div>
+        <div class="button-group">
+            <button class="btn-secondary" onclick="goToStep(4)">Back</button>
+            <button class="btn-primary" onclick="goToStep(6)">Next</button>
+        </div>
+    </div>
+
+    <!-- Step 6: Document Upload -->
+    <div id="step6" class="form-container">
+        <h2>Step 6: Document Upload</h2>
+
+        <!-- Document Upload Fields -->
+        <div class="form-group">
+            <label for="passport">Upload Valid Passport (proof of citizenship and identity)</label>
+            <input type="file" id="passport" required>
+        </div>
+        <div class="form-group">
+            <label for="visaApplicationForm">Upload Visa Application Form (official request for visa)</label>
+            <input type="file" id="visaApplicationForm" required>
+        </div>
+        <div class="form-group">
+            <label for="passportPhoto">Upload Passport-sized Photographs (identification purposes)</label>
+            <input type="file" id="passportPhoto" required>
+        </div>
+        <div class="form-group">
+            <label for="travelItinerary">Upload Travel Itinerary (proof of travel plans)</label>
+            <input type="file" id="travelItinerary" required>
+        </div>
+        <div class="form-group">
+            <label for="accommodationProof">Upload Proof of Accommodation (proof of stay during visit)</label>
+            <input type="file" id="accommodationProof" required>
+        </div>
+        <div class="form-group">
+            <label for="financialProof">Upload Financial Proof (demonstrates ability to support trip expenses)</label>
+            <input type="file" id="financialProof" required>
+        </div>
+        <div class="form-group">
+            <label for="employmentProof">Upload Proof of Employment or Enrollment (verifies applicant's professional or academic status)</label>
+            <input type="file" id="employmentProof" required>
+        </div>
+        <div class="form-group">
+            <label for="invitationLetter">Upload Invitation Letter (confirms purpose of visit if applicable)</label>
+            <input type="file" id="invitationLetter" required>
+        </div>
+        <div class="form-group">
+            <label for="healthInsurance">Upload Health Insurance (ensures medical coverage during stay)</label>
+            <input type="file" id="healthInsurance" required>
+        </div>
+        <div class="form-group">
+            <label for="additionalDocuments">Upload Additional Documents (specific to visa type)</label>
+            <input type="file" id="additionalDocuments" required>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-secondary" onclick="goToStep(5)">Back</button>
+            <button class="btn-primary" onclick="goToStep(7)">Next</button>
+        </div>
+    </div>
+
+    <!-- Step 7: Appointment Scheduling -->
+    <div id="step7" class="form-container">
+        <h2>Step 7: Appointment Scheduling</h2>
+        <div class="form-group">
+            <label for="interviewLocation">Interview Location</label>
+            <select id="interviewLocation">
+                <option value="newYork">New York</option>
+                <option value="losAngeles">Los Angeles</option>
+                <option value="london">London</option>
+                <option value="delhi">Delhi</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="monthYear">Select Appointment Month/Year</label>
+            <select id="monthYear">
+                <option value="January-2024">January 2024</option>
+                <option value="February-2024">February 2024</option>
+                <option value="March-2024">March 2024</option>
+            </select>
+        </div>
+
+        <!-- Calendar -->
+        <div class="calendar" id="calendar"></div>
+
+        <div class="button-group">
+            <button class="btn-secondary" onclick="goToStep(6)">Back</button>
+            <button class="btn-primary" onclick="bookAppointment()">Book Appointment</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="appointmentModal" class="modal">
+    <div class="modal-content">
+        <h3>Appointment Successfully Booked!</h3>
+        <p id="appointmentDetails"></p>
+        <button class="cancel" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<script>
+    let currentStep = 1;
+
+    function goToStep(step) {
+        document.getElementById('step' + currentStep).classList.remove('active');
+        currentStep = step;
+        document.getElementById('step' + currentStep).classList.add('active');
+    }
+
+    function generateCalendar(monthYear) {
+        const monthYearText = monthYear.split('-');
+        const month = monthYearText[0];
+        const year = parseInt(monthYearText[1]);
+
+        const daysInMonth = new Date(year, getMonthNumber(month) + 1, 0).getDate();
+        const calendar = document.getElementById('calendar');
+        calendar.innerHTML = '';
+
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dayElement = document.createElement('div');
+            dayElement.classList.add('calendar-day');
+            dayElement.innerText = i;
+            dayElement.addEventListener('click', () => selectDate(i));
+            calendar.appendChild(dayElement);
+        }
+    }
+
+    function getMonthNumber(month) {
+        const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return months.indexOf(month);
+    }
+
+    function selectDate(date) {
+        const selectedDay = document.querySelector('.calendar-day.selected');
+        if (selectedDay) selectedDay.classList.remove('selected');
+        const dayElements = document.querySelectorAll('.calendar-day');
+        dayElements.forEach((el) => {
+            if (el.innerText == date) {
+                el.classList.add('selected');
+            }
+        });
+    }
+
+    function bookAppointment() {
+        const selectedDay = document.querySelector('.calendar-day.selected');
+        if (selectedDay) {
+            const randomHour = Math.floor(Math.random() * (10 - 9 + 1)) + 9; // Random hour between 9 and 10
+            const randomMinute = Math.floor(Math.random() * 60);
+            const formattedMinute = randomMinute < 10 ? '0' + randomMinute : randomMinute;
+            const selectedDate = selectedDay.innerText;
+            const monthYear = document.getElementById('monthYear').value;
+
+            const appointmentDetails = `Your appointment is scheduled for ${selectedDate} ${monthYear} at ${randomHour}:${formattedMinute}.`;
+
+            document.getElementById('appointmentDetails').innerText = appointmentDetails;
+            document.getElementById('appointmentModal').style.display = 'flex';
+        } else {
+            alert('Please select a date.');
+        }
+    }
+
+    function closeModal() {
+        document.getElementById('appointmentModal').style.display = 'none';
+        goToStep(1);
+    }
+
+    // Automatically generate calendar for the default month/year selected
+    document.getElementById('monthYear').addEventListener('change', (event) => {
+        generateCalendar(event.target.value);
+    });
+
+    // Initialize with default month
+    generateCalendar(document.getElementById('monthYear').value);
+</script>
+
+</body>
+</html>
